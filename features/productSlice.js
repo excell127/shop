@@ -15,38 +15,33 @@ export const getProducts = createAsyncThunk(
 
 const initialState = {
   products: [],
-  productsFilltered: [],
+  productsFiltered: [],
   isLoading: false,
   error: "",
-  isEnableSearch: false,
+  isOpenSearch: false,
 };
 
 const productReducer = createSlice({
   name: "products",
   initialState,
   reducers: {
-    searchProducts: (state, action) => {
+    searchProducts(state, action) {
       const query = action.payload.q;
 
-      // if query doesn't have value, return all previous products
       if (!query) {
-        state.productsFilltered = state.products;
+        state.productsFiltered = state.products;
         return;
       }
 
-      const products = state.products;
-      const queryLowerCase = query.toLowerCase();
-
-      // filter products by name
-      state.productsFilltered = products.filter((product) =>
-        product.title.toLowerCase().includes(queryLowerCase)
+      state.productsFiltered = state.products.filter((product) =>
+        product.title.toLowerCase().includes(query.toLowerCase())
       );
     },
-    openSearch: (state) => {
+    openSearch(state) {
       if (state.isLoading) {
         return;
       }
-      state.isEnableSearch = !state.isEnableSearch;
+      state.isOpenSearch = !state.isOpenSearch;
     },
   },
   extraReducers: (build) => {
@@ -56,7 +51,7 @@ const productReducer = createSlice({
     build.addCase(getProducts.fulfilled, (state, action) => {
       state.isLoading = false;
       state.products = action.payload;
-      state.productsFilltered = action.payload;
+      state.productsFiltered = action.payload;
     });
     build.addCase(getProducts.rejected, (state, action) => {
       state.isLoading = false;
