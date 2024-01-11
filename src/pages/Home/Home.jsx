@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Navbar from "../../components/header/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import CardSkelenton from "../../components/Card/CardSkeleton";
-import Card from "../../components/Card/Card";
+import Cards from "../../components/Card/Cards";
 import { getProducts, searchProducts } from "../../../features/productSlice";
 
 export default function Home() {
@@ -39,7 +39,7 @@ export default function Home() {
               {productsSlice.error}
             </h1>
           ) : (
-            <Card products={productsSlice.productsFiltered} />
+            <Cards products={productsSlice.productsFiltered} />
           )}
         </section>
       </main>

@@ -1,9 +1,11 @@
 import { useDispatch } from "react-redux";
 import { NavLink, Link } from "react-router-dom";
 import { openSearch } from "../../../features/productSlice";
+import { useCartSelector } from "../../../features/cartSlice";
 
 export default function Navbar() {
   const dispatch = useDispatch();
+  const cart = useCartSelector();
 
   const NAVLINKS = [
     { display: "Home", path: "/home" },
@@ -116,7 +118,9 @@ export default function Navbar() {
                     d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                   />
                 </svg>
-                <span className="badge badge-sm indicator-item">8</span>
+                <span className="badge badge-sm indicator-item">
+                  {cart.totalQuantity}
+                </span>
               </div>
             </div>
             <div
@@ -124,8 +128,12 @@ export default function Navbar() {
               className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow"
             >
               <div className="card-body">
-                <span className="font-bold text-lg text-black">8 Items</span>
-                <span className="text-slate-600">Subtotal: $999</span>
+                <span className="font-bold text-lg text-black">
+                  {cart.totalQuantity} Items
+                </span>
+                <span className="text-slate-600">
+                  Subtotal: Rp {(cart.total * 15_000).toLocaleString()}
+                </span>
                 <div className="card-actions">
                   <Link to={"/cart"} className="btn btn-neutral btn-block">
                     View cart
